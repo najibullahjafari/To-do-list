@@ -1,0 +1,22 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.task-item {
+  padding: 10px;
+  margin-bottom: 5px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  list-style-type: none;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.to-do-list-con {
+  padding: 10vw 22vw;
+}
