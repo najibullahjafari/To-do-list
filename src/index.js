@@ -19,7 +19,7 @@ library.add(
   faSave,
   faCheck,
   faTrash,
-  faSort
+  faSort,
 );
 dom.watch();
 
