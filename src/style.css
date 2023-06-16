@@ -20,3 +20,14 @@
 .to-do-list-con {
   padding: 10vw 22vw;
 }
+
+/* btns */
+
+.clear-button {
+  width: 100%;
+  border-radius: 1px;
+}
+
+.list-group-item {
+  border: 1px solid black;
+}
