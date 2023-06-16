@@ -8,11 +8,35 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
     />
-
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="to-do-list-con" id="todo-list">to do</div>
-    <script src="bundle.js"></script>
+    <div class="container">
+      <div class="list-header">
+        <label>
+          <span>Today's To Do</span>
+          <i class="material-icons refresh-icon">refresh</i>
+        </label>
+      </div>
+      <div class="add-task-field">
+        <form class="input-group form-input mb-3" id="list-form">
+          <input
+            type="text"
+            class="form-control form-textfield"
+            placeholder="Add a task..."
+            id="input-field"
+          />
+          <i class="material-icons enter-icon">keyboard_return</i>
+        </form>
+      </div>
+      <ul id="todo-list" class="task-list list-group"></ul>
+      <button class="btn clear-all-btn">Clear All complated</button>
+    </div>
+
+    <script src="script.js"></script>
   </body>
 </html>

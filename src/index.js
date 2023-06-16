@@ -1,5 +1,3 @@
-/* eslint-disable no-use-before-define */
-
 import './style.css';
 import { library, dom } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -10,166 +8,120 @@ import {
 
 library.add(faPlus, faTrashAlt, faArrowAltCircleRight);
 dom.watch();
-
-const tasks = [
-  { description: 'memo 1', completed: false, index: 1 },
-  { description: 'memo 2', completed: true, index: 2 },
-  { description: 'memo 3', completed: false, index: 3 },
-];
-
 document.addEventListener('DOMContentLoaded', () => {
-  const todoListElement = document.getElementById('todo-list');
-  todoListElement.innerHTML = '';
+  const todoList = document.getElementById('todo-list');
+  let tasks = [
+    { text: 'Task 1', completed: false },
+    { text: 'Task 2', completed: false },
+    { text: 'Task 3', completed: false },
+  ];
 
-  const listHeader = createListHeader();
-  todoListElement.appendChild(listHeader);
+  const createTaskItem = (task) => {
+    const taskItem = document.createElement('li');
+    taskItem.className = 'task-item';
 
-  const addTaskField = createAddTaskField();
-  todoListElement.appendChild(addTaskField);
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.className = 'task-checkbox';
+    checkbox.checked = task.completed;
 
-  tasks.forEach((task) => {
-    const listItem = createTaskListItem(task);
-    todoListElement.appendChild(listItem);
-  });
+    const taskText = document.createElement('span');
+    taskText.className = 'task-text';
+    taskText.textContent = task.text;
 
-  const clearButton = createClearButton();
-  todoListElement.appendChild(clearButton);
-});
+    const dotsButton = document.createElement('button');
+    dotsButton.className = 'task-dots';
+    dotsButton.innerHTML = '&#8942;'; // Three dots character
 
-const createListHeader = () => {
-  const header = document.createElement('label');
-  header.textContent = "Today's To Do";
-  header.classList.add('list-header');
-  return header;
-};
+    taskItem.appendChild(checkbox);
+    taskItem.appendChild(taskText);
+    taskItem.appendChild(dotsButton);
 
-const createAddTaskField = () => {
-  const addTaskField = document.createElement('div');
-  addTaskField.classList.add('input-group', 'mb-3');
+    return taskItem;
+  };
 
-  const textField = document.createElement('input');
-  textField.type = 'text';
-  textField.placeholder = 'Add a task...';
-  textField.classList.add('form-control');
-  textField.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-      handleAddTask();
+  const renderTasks = () => {
+    todoList.innerHTML = '';
+
+    tasks.forEach((task) => {
+      const taskItem = createTaskItem(task);
+      todoList.appendChild(taskItem);
+    });
+  };
+
+  const toggleTaskCompletion = (event) => {
+    const taskItem = event.target.closest('.task-item');
+    taskItem.classList.toggle('completed');
+  };
+
+  todoList.addEventListener('click', (event) => {
+    if (event.target.classList.contains('task-checkbox')) {
+      toggleTaskCompletion(event);
     }
   });
 
-  const enterIcon = document.createElement('span');
-  enterIcon.classList.add('input-group-text', 'enter-icon');
-  enterIcon.innerHTML = '<i class="fas fa-arrow-alt-circle-right"></i>';
+  renderTasks();
 
-  addTaskField.appendChild(textField);
-  addTaskField.appendChild(enterIcon);
-
-  return addTaskField;
-};
-
-const createTaskListItem = (task) => {
-  const listItem = document.createElement('li');
-  listItem.classList.add(
-    'list-group-item',
-    'd-flex',
-    'align-items-center',
-    'task-item',
-  );
-
-  const checkbox = createCheckbox(task);
-  const description = createDescription(task);
-  const removeButton = createRemoveButton(task);
-
-  listItem.appendChild(checkbox);
-  listItem.appendChild(description);
-  listItem.appendChild(removeButton);
-
-  return listItem;
-};
-
-const createCheckbox = (task) => {
-  const checkbox = document.createElement('input');
-  checkbox.type = 'checkbox';
-  checkbox.checked = task.completed;
-  checkbox.classList.add('form-check-input', 'me-2');
-  checkbox.addEventListener('change', () => {
-    task.completed = checkbox.checked;
-    updateTodoList();
-  });
-
-  return checkbox;
-};
-
-const createDescription = (task) => {
-  const description = document.createElement('span');
-  description.textContent = task.description;
-  description.classList.add('task-description');
-  if (task.completed) {
-    description.classList.add('completed');
-  }
-
-  return description;
-};
-
-const createRemoveButton = (task) => {
-  const removeButton = document.createElement('button');
-  removeButton.classList.add('btn', 'ms-auto', 'remove-button');
-  removeButton.addEventListener('click', () => {
-    const index = tasks.findIndex((t) => t.index === task.index);
-    tasks.splice(index, 1);
-    updateTodoList();
-  });
-
-  const removeButtonIcon = document.createElement('span');
-  removeButtonIcon.innerHTML = '<i class="fas fa-trash-alt"></i>';
-
-  removeButton.appendChild(removeButtonIcon);
-
-  return removeButton;
-};
-
-const createClearButton = () => {
-  const clearButton = document.createElement('button');
-  clearButton.textContent = 'Clear All Tasks';
-  clearButton.classList.add('btn', 'btn-danger', 'mt-3', 'clear-button');
-  clearButton.addEventListener('click', () => {
-    tasks.length = 0;
-    updateTodoList();
-  });
-
-  return clearButton;
-};
-
-const updateTodoList = () => {
-  const todoListElement = document.getElementById('todo-list');
-  todoListElement.innerHTML = '';
-
-  const listHeader = createListHeader();
-  todoListElement.appendChild(listHeader);
-
-  const addTaskField = createAddTaskField();
-  todoListElement.appendChild(addTaskField);
-
-  tasks.forEach((task) => {
-    const listItem = createTaskListItem(task);
-    todoListElement.appendChild(listItem);
-  });
-
-  const clearButton = createClearButton();
-  todoListElement.appendChild(clearButton);
-};
-
-const handleAddTask = () => {
-  const inputField = document.querySelector('.form-control');
-  const description = inputField.value;
-  if (description.trim() !== '') {
-    const newTask = {
-      description,
+  const addTask = (taskText) => {
+    const task = {
+      text: taskText,
       completed: false,
-      index: tasks.length + 1,
     };
-    tasks.push(newTask);
-    inputField.value = '';
-    updateTodoList();
+    tasks.push(task);
+    const taskItem = createTaskItem(task);
+    todoList.appendChild(taskItem);
+  };
+
+  const clearTasks = () => {
+    tasks = [];
+    todoList.innerHTML = '';
+  };
+
+  const listForm = document.getElementById('list-form');
+  const inputField = document.getElementById('input-field');
+  const clearAllBtn = document.querySelector('.clear-all-btn');
+
+  listForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const taskText = inputField.value.trim();
+    if (taskText !== '') {
+      addTask(taskText);
+      inputField.value = '';
+    }
+  });
+
+  clearAllBtn.addEventListener('click', () => {
+    clearTasks();
+  });
+});
+
+const taskList = document.getElementById('todo-list');
+
+const moveTaskBelow = (taskElement) => {
+  const { nextElementSibling: nextTask } = taskElement;
+  if (nextTask) {
+    taskList.insertBefore(taskElement, nextTask.nextSibling);
   }
 };
+
+const moveTaskAbove = (taskElement) => {
+  const { previousElementSibling: previousTask } = taskElement;
+  if (previousTask) {
+    taskList.insertBefore(taskElement, previousTask);
+  }
+};
+
+taskList.addEventListener('click', (event) => {
+  const { target } = event;
+  if (target.classList.contains('task-dots')) {
+    const taskElement = target.closest('.task-item');
+    if (taskElement) {
+      const { action } = target.dataset;
+      if (action === 'move-below') {
+        moveTaskBelow(taskElement);
+      } else if (action === 'move-above') {
+        moveTaskAbove(taskElement);
+      }
+    }
+  }
+});
