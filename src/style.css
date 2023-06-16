@@ -5,10 +5,11 @@
 }
 
 .task-item {
-  padding: 10px;
-  margin-bottom: 1px;
-  background-color: #f2f2f2;
-  list-style-type: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 20px;
 }
 
 .completed {
@@ -101,6 +102,7 @@
 
 .task-text {
   margin-left: 12px;
+  flex: 1;
 }
 
 .form-input {
@@ -108,4 +110,19 @@
   margin: 0 !important;
   align-items: center;
   justify-content: center;
+}
+
+.task-delete {
+  border: none;
+  background: none;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.task-edit {
+  border: none;
+  background: none;
+  color: #007bff;
+  cursor: pointer;
+  margin-right: 20px;
 }
