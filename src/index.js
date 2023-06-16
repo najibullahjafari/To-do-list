@@ -4,21 +4,44 @@ import {
   faPlus,
   faTrashAlt,
   faArrowAltCircleRight,
+  faEdit,
+  faSave,
+  faCheck,
+  faTrash,
+  faSort,
 } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faPlus, faTrashAlt, faArrowAltCircleRight);
+library.add(
+  faPlus,
+  faTrashAlt,
+  faArrowAltCircleRight,
+  faEdit,
+  faSave,
+  faCheck,
+  faTrash,
+  faSort,
+);
 dom.watch();
+
 document.addEventListener('DOMContentLoaded', () => {
   const todoList = document.getElementById('todo-list');
-  let tasks = [
-    { text: 'Task 1', completed: false },
-    { text: 'Task 2', completed: false },
-    { text: 'Task 3', completed: false },
-  ];
+  let tasks = [];
+
+  const getTasksFromLocalStorage = () => {
+    const storedTasks = localStorage.getItem('tasks');
+    if (storedTasks) {
+      tasks = JSON.parse(storedTasks);
+    }
+  };
+
+  const saveTasksToLocalStorage = () => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  };
 
   const createTaskItem = (task) => {
     const taskItem = document.createElement('li');
     taskItem.className = 'task-item';
+    taskItem.setAttribute('draggable', 'true');
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
@@ -27,16 +50,79 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const taskText = document.createElement('span');
     taskText.className = 'task-text';
-    taskText.textContent = task.text;
+    taskText.textContent = task.description;
 
-    const dotsButton = document.createElement('button');
-    dotsButton.className = 'task-dots';
-    dotsButton.innerHTML = '&#8942;'; // Three dots character
+    const editButton = document.createElement('button');
+    editButton.className = 'task-edit';
+    editButton.innerHTML = '<i class="fas fa-edit"></i>';
+
+    const deleteButton = document.createElement('button');
+    deleteButton.className = 'task-delete';
+    deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
 
     taskItem.appendChild(checkbox);
     taskItem.appendChild(taskText);
-    taskItem.appendChild(dotsButton);
+    taskItem.appendChild(editButton);
+    taskItem.appendChild(deleteButton);
 
+    // Add event listener for the edit button
+    editButton.addEventListener('click', () => {
+      const textField = document.createElement('input');
+      textField.type = 'text';
+      textField.className = 'edit-text-field';
+      textField.value = task.description;
+
+      // Replace the taskText element with the textField
+      taskItem.replaceChild(textField, taskText);
+
+      // Disable the edit button while editing
+      editButton.disabled = true;
+
+      // Focus on the textField
+      textField.focus();
+
+      // Event listener for the Enter key to save the edited task
+      textField.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          const newDescription = textField.value.trim();
+          if (newDescription !== '') {
+            task.description = newDescription;
+            renderTasks();
+            saveTasksToLocalStorage();
+          }
+          textField.removeEventListener('keydown', null);
+          editButton.disabled = false;
+        }
+      });
+
+      // Event listener for the Esc key to cancel editing
+      textField.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          taskItem.replaceChild(taskText, textField);
+          textField.removeEventListener('keydown', null);
+          editButton.disabled = false;
+        }
+      });
+    });
+
+    // Add event listener for the delete button
+    deleteButton.addEventListener('click', () => {
+      const taskIndex = tasks.indexOf(task);
+      if (taskIndex !== -1) {
+        tasks.splice(taskIndex, 1);
+        renderTasks();
+        saveTasksToLocalStorage();
+      }
+    });
+    checkbox.addEventListener('change', () => {
+      task.completed = checkbox.checked;
+      if (task.completed) {
+        taskText.classList.add('completed');
+      } else {
+        taskText.classList.remove('completed');
+      }
+      saveTasksToLocalStorage();
+    });
     return taskItem;
   };
 
@@ -49,9 +135,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  const addTask = (taskDescription) => {
+    const task = {
+      description: taskDescription,
+      completed: false,
+    };
+    tasks.push(task);
+    renderTasks();
+    saveTasksToLocalStorage();
+  };
+
+  const removeCompletedTasks = () => {
+    tasks = tasks.filter((task) => !task.completed);
+    renderTasks();
+    saveTasksToLocalStorage();
+  };
+
+  const reorderTask = (fromIndex, toIndex) => {
+    const [task] = tasks.splice(fromIndex, 1);
+    tasks.splice(toIndex, 0, task);
+    renderTasks();
+    saveTasksToLocalStorage();
+  };
+
   const toggleTaskCompletion = (event) => {
     const taskItem = event.target.closest('.task-item');
-    taskItem.classList.toggle('completed');
+    const taskIndex = Array.from(todoList.children).indexOf(taskItem);
+    tasks[taskIndex].completed = !tasks[taskIndex].completed;
+    saveTasksToLocalStorage();
   };
 
   todoList.addEventListener('click', (event) => {
@@ -60,68 +171,44 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  renderTasks();
+  todoList.addEventListener('dragstart', (event) => {
+    event.dataTransfer.setData('text/plain', event.target.id);
+    event.target.classList.add('dragging');
+  });
 
-  const addTask = (taskText) => {
-    const task = {
-      text: taskText,
-      completed: false,
-    };
-    tasks.push(task);
-    const taskItem = createTaskItem(task);
-    todoList.appendChild(taskItem);
-  };
+  todoList.addEventListener('dragover', (event) => {
+    event.preventDefault();
+    const draggableTask = document.querySelector('.dragging');
+    const overTask = event.target.closest('.task-item');
+    if (draggableTask && overTask && draggableTask !== overTask) {
+      const fromIndex = Array.from(todoList.children).indexOf(draggableTask);
+      const toIndex = Array.from(todoList.children).indexOf(overTask);
+      reorderTask(fromIndex, toIndex);
+    }
+  });
 
-  const clearTasks = () => {
-    tasks = [];
-    todoList.innerHTML = '';
-  };
+  todoList.addEventListener('dragend', () => {
+    const draggableTask = document.querySelector('.dragging');
+    if (draggableTask) {
+      draggableTask.classList.remove('dragging');
+    }
+  });
+
+  const clearAllBtn = document.querySelector('.clear-all-btn');
+  clearAllBtn.addEventListener('click', removeCompletedTasks);
 
   const listForm = document.getElementById('list-form');
   const inputField = document.getElementById('input-field');
-  const clearAllBtn = document.querySelector('.clear-all-btn');
 
   listForm.addEventListener('submit', (event) => {
     event.preventDefault();
-    const taskText = inputField.value.trim();
-    if (taskText !== '') {
-      addTask(taskText);
+    const taskDescription = inputField.value.trim();
+    if (taskDescription !== '') {
+      addTask(taskDescription);
       inputField.value = '';
     }
   });
 
-  clearAllBtn.addEventListener('click', () => {
-    clearTasks();
-  });
-});
-
-const taskList = document.getElementById('todo-list');
-
-const moveTaskBelow = (taskElement) => {
-  const { nextElementSibling: nextTask } = taskElement;
-  if (nextTask) {
-    taskList.insertBefore(taskElement, nextTask.nextSibling);
-  }
-};
-
-const moveTaskAbove = (taskElement) => {
-  const { previousElementSibling: previousTask } = taskElement;
-  if (previousTask) {
-    taskList.insertBefore(taskElement, previousTask);
-  }
-};
-
-taskList.addEventListener('click', (event) => {
-  const { target } = event;
-  if (target.classList.contains('task-dots')) {
-    const taskElement = target.closest('.task-item');
-    if (taskElement) {
-      const { action } = target.dataset;
-      if (action === 'move-below') {
-        moveTaskBelow(taskElement);
-      } else if (action === 'move-above') {
-        moveTaskAbove(taskElement);
-      }
-    }
-  }
+  getTasksFromLocalStorage();
+  renderTasks();
 });
