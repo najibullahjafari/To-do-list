@@ -74,7 +74,7 @@ const createTaskListItem = (task) => {
     'd-flex',
     'align-items-center',
     'task-item',
-  )
+  );
 
   const checkbox = createCheckbox(task);
   const description = createDescription(task);
