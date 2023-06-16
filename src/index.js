@@ -19,7 +19,7 @@ library.add(
   faSave,
   faCheck,
   faTrash,
-  faSort,
+  faSort
 );
 dom.watch();
 
@@ -110,6 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const taskIndex = tasks.indexOf(task);
       if (taskIndex !== -1) {
         tasks.splice(taskIndex, 1);
+        updateTaskIndexes();
         renderTasks();
         saveTasksToLocalStorage();
       }
@@ -129,7 +130,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const renderTasks = () => {
     todoList.innerHTML = '';
 
-    tasks.forEach((task) => {
+    tasks.forEach((task, index) => {
+      task.index = index;
       const taskItem = createTaskItem(task);
       todoList.appendChild(taskItem);
     });
@@ -139,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const task = {
       description: taskDescription,
       completed: false,
+      index: tasks.length,
     };
     tasks.push(task);
     renderTasks();
@@ -147,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const removeCompletedTasks = () => {
     tasks = tasks.filter((task) => !task.completed);
+    updateTaskIndexes();
     renderTasks();
     saveTasksToLocalStorage();
   };
@@ -154,6 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const reorderTask = (fromIndex, toIndex) => {
     const [task] = tasks.splice(fromIndex, 1);
     tasks.splice(toIndex, 0, task);
+    updateTaskIndexes();
     renderTasks();
     saveTasksToLocalStorage();
   };
@@ -163,6 +168,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskIndex = Array.from(todoList.children).indexOf(taskItem);
     tasks[taskIndex].completed = !tasks[taskIndex].completed;
     saveTasksToLocalStorage();
+  };
+
+  const updateTaskIndexes = () => {
+    tasks.forEach((task, index) => {
+      task.index = index;
+    });
   };
 
   todoList.addEventListener('click', (event) => {
