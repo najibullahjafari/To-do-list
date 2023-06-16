@@ -24,6 +24,10 @@
   margin-top: 0 !important;
 }
 
+.refresh-icon {
+  float: right;
+}
+
 .list-group-item {
   border: 1px solid black;
 }
@@ -55,6 +59,7 @@
   background: #fff;
   text-align: center;
   align-items: center;
+  margin-right: 12px;
 }
 
 .label-container {
@@ -68,10 +73,6 @@
 
 .label-container .refresh-icon {
   margin-left: auto;
-}
-
-.refresh-icon {
-  float: right;
 }
 
 .form-textfield {
@@ -100,10 +101,6 @@
 
 .task-text {
   margin-left: 12px;
-}
-
-.enter-icon {
-  margin-right: 12px;
 }
 
 .form-input {
