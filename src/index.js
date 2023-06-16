@@ -1,7 +1,6 @@
 /* eslint-disable no-use-before-define */
 
 import './style.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { library, dom } from '@fortawesome/fontawesome-svg-core';
 import {
   faPlus,
@@ -74,7 +73,7 @@ const createTaskListItem = (task) => {
     'list-group-item',
     'd-flex',
     'align-items-center',
-    'task-item'
+    'task-item';
   );
 
   const checkbox = createCheckbox(task);
