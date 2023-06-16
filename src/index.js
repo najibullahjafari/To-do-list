@@ -10,6 +10,7 @@ import {
   faTrash,
   faSort,
 } from '@fortawesome/free-solid-svg-icons';
+import updateStatus from './modules/statusUpdates';
 
 library.add(
   faPlus,
@@ -19,7 +20,7 @@ library.add(
   faSave,
   faCheck,
   faTrash,
-  faSort,
+  faSort
 );
 dom.watch();
 
@@ -115,15 +116,12 @@ document.addEventListener('DOMContentLoaded', () => {
         saveTasksToLocalStorage();
       }
     });
+
     checkbox.addEventListener('change', () => {
-      task.completed = checkbox.checked;
-      if (task.completed) {
-        taskText.classList.add('completed');
-      } else {
-        taskText.classList.remove('completed');
-      }
+      updateStatus(task, checkbox.checked);
       saveTasksToLocalStorage();
     });
+
     return taskItem;
   };
 
@@ -167,6 +165,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskItem = event.target.closest('.task-item');
     const taskIndex = Array.from(todoList.children).indexOf(taskItem);
     tasks[taskIndex].completed = !tasks[taskIndex].completed;
+
+    const taskText = taskItem.querySelector('.task-text');
+    if (tasks[taskIndex].completed) {
+      taskText.classList.add('completed');
+    } else {
+      taskText.classList.remove('completed');
+    }
+
     saveTasksToLocalStorage();
   };
 
