@@ -73,8 +73,8 @@ const createTaskListItem = (task) => {
     'list-group-item',
     'd-flex',
     'align-items-center',
-    'task-item';
-  );
+    'task-item',
+  )
 
   const checkbox = createCheckbox(task);
   const description = createDescription(task);
