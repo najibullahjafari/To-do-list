@@ -1,26 +1,26 @@
 import './style.css';
 import { library, dom } from '@fortawesome/fontawesome-svg-core';
 import {
-  faPlus,
-  faTrashAlt,
-  faArrowAltCircleRight,
-  faEdit,
-  faSave,
-  faCheck,
-  faTrash,
-  faSort,
+  faPlus as a,
+  faTrashAlt as b,
+  faArrowAltCircleRight as c,
+  faEdit as d,
+  faSave as e,
+  faCheck as f,
+  faTrash as g,
+  faSort as h,
 } from '@fortawesome/free-solid-svg-icons';
 import updateStatus from './modules/statusUpdates';
 
 library.add(
-  faPlus,
-  faTrashAlt,
-  faArrowAltCircleRight,
-  faEdit,
-  faSave,
-  faCheck,
-  faTrash,
-  faSort,
+  a,
+  b,
+  c,
+  d,
+  e,
+  f,
+  g,
+  h,
 );
 dom.watch();
 
@@ -28,110 +28,110 @@ document.addEventListener('DOMContentLoaded', () => {
   const todoList = document.getElementById('todo-list');
   let tasks = [];
 
-  const getTasksFromLocalStorage = () => {
+  const fetchTasks = () => {
     const storedTasks = localStorage.getItem('tasks');
     if (storedTasks) {
       tasks = JSON.parse(storedTasks);
     }
   };
 
-  const saveTasksToLocalStorage = () => {
+  const saveTasks = () => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   };
 
-  const createTaskItem = (task) => {
-    const taskItem = document.createElement('li');
-    taskItem.className = 'task-item';
-    taskItem.setAttribute('draggable', 'true');
+  const createItem = (task) => {
+    const item = document.createElement('li');
+    item.className = 'task-item';
+    item.setAttribute('draggable', 'true');
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.className = 'task-checkbox';
     checkbox.checked = task.completed;
 
-    const taskText = document.createElement('span');
-    taskText.className = 'task-text';
-    taskText.textContent = task.description;
+    const text = document.createElement('span');
+    text.className = 'task-text';
+    text.textContent = task.description;
 
-    const editButton = document.createElement('button');
-    editButton.className = 'task-edit';
-    editButton.innerHTML = '<i class="fas fa-edit"></i>';
+    const editBtn = document.createElement('button');
+    editBtn.className = 'task-edit';
+    editBtn.innerHTML = '<i class="fas fa-edit"></i>';
 
-    const deleteButton = document.createElement('button');
-    deleteButton.className = 'task-delete';
-    deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'task-delete';
+    deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
 
-    taskItem.appendChild(checkbox);
-    taskItem.appendChild(taskText);
-    taskItem.appendChild(editButton);
-    taskItem.appendChild(deleteButton);
+    item.appendChild(checkbox);
+    item.appendChild(text);
+    item.appendChild(editBtn);
+    item.appendChild(deleteBtn);
 
     // Add event listener for the edit button
-    editButton.addEventListener('click', () => {
-      const textField = document.createElement('input');
-      textField.type = 'text';
-      textField.className = 'edit-text-field';
-      textField.value = task.description;
+    editBtn.addEventListener('click', () => {
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'edit-text-field';
+      input.value = task.description;
 
-      // Replace the taskText element with the textField
-      taskItem.replaceChild(textField, taskText);
+      // Replace the text element with the input
+      item.replaceChild(input, text);
 
       // Disable the edit button while editing
-      editButton.disabled = true;
+      editBtn.disabled = true;
 
-      // Focus on the textField
-      textField.focus();
+      // Focus on the input field
+      input.focus();
 
       // Event listener for the Enter key to save the edited task
-      textField.addEventListener('keydown', (event) => {
+      input.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
-          const newDescription = textField.value.trim();
+          const newDescription = input.value.trim();
           if (newDescription !== '') {
             task.description = newDescription;
             renderTasks();
-            saveTasksToLocalStorage();
+            saveTasks();
           }
-          textField.removeEventListener('keydown', null);
-          editButton.disabled = false;
+          input.removeEventListener('keydown', null);
+          editBtn.disabled = false;
         }
       });
 
       // Event listener for the Esc key to cancel editing
-      textField.addEventListener('keydown', (event) => {
+      input.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
-          taskItem.replaceChild(taskText, textField);
-          textField.removeEventListener('keydown', null);
-          editButton.disabled = false;
+          item.replaceChild(text, input);
+          input.removeEventListener('keydown', null);
+          editBtn.disabled = false;
         }
       });
     });
 
     // Add event listener for the delete button
-    deleteButton.addEventListener('click', () => {
+    deleteBtn.addEventListener('click', () => {
       const taskIndex = tasks.indexOf(task);
       if (taskIndex !== -1) {
         tasks.splice(taskIndex, 1);
-        updateTaskIndexes();
+        updateIndexes();
         renderTasks();
-        saveTasksToLocalStorage();
+        saveTasks();
       }
     });
 
     checkbox.addEventListener('change', () => {
       updateStatus(task, checkbox.checked);
-      saveTasksToLocalStorage();
+      saveTasks();
     });
 
-    return taskItem;
+    return item;
   };
-
+  
   const renderTasks = () => {
     todoList.innerHTML = '';
 
     tasks.forEach((task, index) => {
       task.index = index;
-      const taskItem = createTaskItem(task);
-      todoList.appendChild(taskItem);
+      const item = createItem(task);
+      todoList.appendChild(item);
     });
   };
 
@@ -143,40 +143,40 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     tasks.push(task);
     renderTasks();
-    saveTasksToLocalStorage();
+    saveTasks();
   };
 
   const removeCompletedTasks = () => {
     tasks = tasks.filter((task) => !task.completed);
-    updateTaskIndexes();
+    updateIndexes();
     renderTasks();
-    saveTasksToLocalStorage();
+    saveTasks();
   };
 
   const reorderTask = (fromIndex, toIndex) => {
     const [task] = tasks.splice(fromIndex, 1);
     tasks.splice(toIndex, 0, task);
-    updateTaskIndexes();
+    updateIndexes();
     renderTasks();
-    saveTasksToLocalStorage();
+    saveTasks();
   };
 
   const toggleTaskCompletion = (event) => {
-    const taskItem = event.target.closest('.task-item');
-    const taskIndex = Array.from(todoList.children).indexOf(taskItem);
+    const item = event.target.closest('.task-item');
+    const taskIndex = Array.from(todoList.children).indexOf(item);
     tasks[taskIndex].completed = !tasks[taskIndex].completed;
 
-    const taskText = taskItem.querySelector('.task-text');
+    const text = item.querySelector('.task-text');
     if (tasks[taskIndex].completed) {
-      taskText.classList.add('completed');
+      text.classList.add('completed');
     } else {
-      taskText.classList.remove('completed');
+      text.classList.remove('completed');
     }
 
-    saveTasksToLocalStorage();
+    saveTasks();
   };
 
-  const updateTaskIndexes = () => {
+  const updateIndexes = () => {
     tasks.forEach((task, index) => {
       task.index = index;
     });
@@ -211,21 +211,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  const clearAllBtn = document.querySelector('.clear-all-btn');
-  clearAllBtn.addEventListener('click', removeCompletedTasks);
+  const clearBtn = document.querySelector('.clear-all-btn');
+  clearBtn.addEventListener('click', removeCompletedTasks);
 
-  const listForm = document.getElementById('list-form');
-  const inputField = document.getElementById('input-field');
+  const form = document.getElementById('list-form');
+  const input = document.getElementById('input-field');
 
-  listForm.addEventListener('submit', (event) => {
+  form.addEventListener('submit', (event) => {
     event.preventDefault();
-    const taskDescription = inputField.value.trim();
+    const taskDescription = input.value.trim();
     if (taskDescription !== '') {
       addTask(taskDescription);
-      inputField.value = '';
+      input.value = '';
     }
   });
 
-  getTasksFromLocalStorage();
+  fetchTasks();
   renderTasks();
 });
