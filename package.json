@@ -21,6 +21,7 @@
     "eslint-plugin-react": "^7.32.2",
     "hint": "^7.1.9",
     "html-webpack-plugin": "^5.5.3",
+    "jest": "^29.5.0",
     "style-loader": "^3.3.3",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^21.0.0",

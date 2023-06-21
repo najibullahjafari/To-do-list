@@ -12,6 +12,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import updateStatus from './modules/statusUpdates';
 import Functions from './modules/functions';
+
 library.add(
   a,
   b,
@@ -23,4 +24,3 @@ library.add(
   h,
 );
 dom.watch();
-
