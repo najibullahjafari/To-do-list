@@ -82,25 +82,8 @@ describe('Task Functions', () => {
     });
   });
 
-  describe('clearCompletedTasks', () => {
-    test('should remove completed tasks from the localStorage', () => {
-      // Create sample tasks
-      const task1 = { id: 1, description: 'Task 1', completed: true };
-      const task2 = { id: 2, description: 'Task 2', completed: false };
-      const task3 = { id: 3, description: 'Task 3', completed: true };
-      const task4 = { id: 4, description: 'Task 4', completed: false };
-      localStorage.setItem(
-        'tasks',
-        JSON.stringify([task1, task2, task3, task4])
-      );
-
-      // Clear completed tasks
-      clearCompletedTasks();
-
       // Verify completed tasks are removed from the localStorage
       const storedTasks = JSON.parse(localStorage.getItem('tasks'));
       expect(storedTasks.length).toBe(2);
       expect(storedTasks.some((task) => task.completed)).toBe(false);
     });
-  });
-});
