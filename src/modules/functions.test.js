@@ -48,6 +48,12 @@ describe('removeTask', () => {
     expect(tasks).not.toContainEqual(expect.objectContaining({ id: taskId }));
   });
 
+      // Verify completed tasks are removed from the localStorage
+      const storedTasks = JSON.parse(localStorage.getItem('tasks'));
+      expect(storedTasks.length).toBe(2);
+      expect(storedTasks.some((task) => task.completed)).toBe(false);
+    });
+
   test('should not remove any task if the provided taskId is not found', () => {
     const taskId = 1;
     removeTask(taskId, tasks);
@@ -72,4 +78,3 @@ const localStorageMock = (() => {
   };
 })();
 global.localStorage = localStorageMock;
-});
