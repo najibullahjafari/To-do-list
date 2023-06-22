@@ -10,18 +10,9 @@ import {
   faTrash as g,
   faSort as h,
 } from '@fortawesome/free-solid-svg-icons';
-import updateStatus from './modules/statusUpdates';
+import updateStatus from './modules/statusUpdates.js';
 
-library.add(
-  a,
-  b,
-  c,
-  d,
-  e,
-  f,
-  g,
-  h,
-);
+library.add(a, b, c, d, e, f, g, h);
 dom.watch();
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -124,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     return item;
   };
-  
+
   const renderTasks = () => {
     todoList.innerHTML = '';
 
