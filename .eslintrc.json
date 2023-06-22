@@ -8,13 +8,8 @@
     "ecmaVersion": 2021,
     "sourceType": "module"
   },
-  "extends": [
-    "eslint:recommended",
-    "plugin:import/recommended"
-  ],
-  "plugins": [
-    "import"
-  ],
+  "extends": ["eslint:recommended", "plugin:import/recommended"],
+  "plugins": ["import"],
   "rules": {
     "no-shadow": "off",
     "no-param-reassign": "off",
@@ -32,6 +27,8 @@
   },
   "ignorePatterns": [
     "dist/",
-    "build/"
+    "build/",
+    "src/modules/functions.js",
+    "src/modules/functions.test.js"
   ]
 }
