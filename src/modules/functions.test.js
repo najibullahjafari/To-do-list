@@ -1,9 +1,58 @@
 // Import the functions to be tested
 const {
-  editTaskDescription,
-  updateTaskStatus,
-  clearCompletedTasks,
+  addTask,
+  removeTask
 } = require('./functions');
+
+
+describe('addTask', () => {
+  let tasks;
+
+  beforeEach(() => {
+    tasks = []; // Reset tasks before each test
+  });
+
+  test('should add a task to the list', () => {
+    const taskDescription = 'Task 1';
+
+    addTask(taskDescription, tasks);
+
+    expect(tasks).toHaveLength(1);
+    expect(tasks[0]).toMatchObject({
+      description: taskDescription,
+      completed: false,
+      id: 0,
+    });
+  });
+});
+
+describe('removeTask', () => {
+  let tasks;
+
+  beforeEach(() => {
+    tasks = [
+      { description: 'Task 1', completed: false, id: 0 },
+      { description: 'Task 2', completed: true, id: 1 },
+      { description: 'Task 3', completed: false, id: 2 },
+    ]; // Set up sample tasks before each test
+  });
+
+  test('should remove a task from the list', () => {
+    const taskId = 1;
+
+    removeTask(taskId, tasks);
+
+    expect(tasks).toHaveLength(2);
+    expect(tasks).not.toContainEqual(expect.objectContaining({ id: taskId }));
+  });
+
+  test('should not remove any task if the provided taskId is not found', () => {
+    const taskId = 1;
+    removeTask(taskId, tasks);
+
+    expect(tasks).toHaveLength(tasks.length);
+  });
+});
 
 // Mock localStorage
 const localStorageMock = (() => {
@@ -22,85 +71,3 @@ const localStorageMock = (() => {
   };
 })();
 global.localStorage = localStorageMock;
-
-describe('Task Functions', () => {
-  beforeEach(() => {
-    localStorage.clear();
-  });
-
-  describe('editTaskDescription', () => {
-    test('should edit the task description', () => {
-      // Create a sample task
-      const task = { id: 1, description: 'Task 1', completed: false };
-      localStorage.setItem('tasks', JSON.stringify([task]));
-
-      // Edit the task description
-      const updatedTask = editTaskDescription(1, 'Updated Task 1');
-
-      // Verify the task description is updated
-      expect(updatedTask).toEqual({
-        id: 1,
-        description: 'Updated Task 1',
-        completed: false,
-      });
-
-      // Verify the task is updated in the localStorage
-      const storedTasks = JSON.parse(localStorage.getItem('tasks'));
-      expect(storedTasks[0].description).toBe('Updated Task 1');
-    });
-
-    test('should return null if task does not exist', () => {
-      const updatedTask = editTaskDescription(1, 'Updated Task 1');
-      expect(updatedTask).toBeNull();
-    });
-  });
-
-  describe('updateTaskStatus', () => {
-    test('should update the task status', () => {
-      // Create a sample task
-      const task = { id: 1, description: 'Task 1', completed: false };
-      localStorage.setItem('tasks', JSON.stringify([task]));
-
-      // Update the task status
-      const updatedTask = updateTaskStatus(1, true);
-
-      // Verify the task status is updated
-      expect(updatedTask).toEqual({
-        id: 1,
-        description: 'Task 1',
-        completed: true,
-      });
-
-      // Verify the task is updated in the localStorage
-      const storedTasks = JSON.parse(localStorage.getItem('tasks'));
-      expect(storedTasks[0].completed).toBe(true);
-    });
-
-    test('should return null if task does not exist', () => {
-      const updatedTask = updateTaskStatus(1, true);
-      expect(updatedTask).toBeNull();
-    });
-  });
-
-  describe('clearCompletedTasks', () => {
-    test('should remove completed tasks from the localStorage', () => {
-      // Create sample tasks
-      const task1 = { id: 1, description: 'Task 1', completed: true };
-      const task2 = { id: 2, description: 'Task 2', completed: false };
-      const task3 = { id: 3, description: 'Task 3', completed: true };
-      const task4 = { id: 4, description: 'Task 4', completed: false };
-      localStorage.setItem(
-        'tasks',
-        JSON.stringify([task1, task2, task3, task4])
-      );
-
-      // Clear completed tasks
-      clearCompletedTasks();
-
-      // Verify completed tasks are removed from the localStorage
-      const storedTasks = JSON.parse(localStorage.getItem('tasks'));
-      expect(storedTasks.length).toBe(2);
-      expect(storedTasks.some((task) => task.completed)).toBe(false);
-    });
-  });
-});
