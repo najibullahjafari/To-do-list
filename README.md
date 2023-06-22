@@ -70,7 +70,7 @@ It is a library!
 In this project best coding practices is used.
 
 ## 🚀 Live Demo <a name="live-demo"></a>
-
+<!-- https://64933b42fe735108c7471065--gleaming-rabanadas-7c9e4b.netlify.app/ -->
 Check out the live demo of this project [here](#).
 
 ## 💻 Getting Started <a name="getting-started"></a>
