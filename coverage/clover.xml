@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< HEAD
-<coverage generated="1687463606431" clover="3.2.0">
-  <project timestamp="1687463606433" name="All files">
-    <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0" elements="0" coveredelements="0" complexity="0" loc="0" ncloc="0" packages="0" files="0" classes="0"/>
-=======
-<coverage generated="1687462024082" clover="3.2.0">
-  <project timestamp="1687462024084" name="All files">
-    <metrics statements="22" coveredstatements="22" conditionals="3" coveredconditionals="3" methods="2" coveredmethods="2" elements="27" coveredelements="27" complexity="0" loc="22" ncloc="22" packages="1" files="1" classes="1"/>
-    <file name="functions.js" path="C:\Users\Jafferi's\Documents\GitHub\To-do-list\src\modules\functions.js">
-      <metrics statements="22" coveredstatements="22" conditionals="3" coveredconditionals="3" methods="2" coveredmethods="2"/>
+<coverage generated="1687512744133" clover="3.2.0">
+  <project timestamp="1687512744134" name="All files">
+    <metrics statements="46" coveredstatements="46" conditionals="12" coveredconditionals="12" methods="5" coveredmethods="5" elements="63" coveredelements="63" complexity="0" loc="46" ncloc="46" packages="1" files="1" classes="1"/>
+    <file name="functions.js" path="C:\Users\Najibullah\Documents\GitHub\To-do-list\src\modules\functions.js">
+      <metrics statements="46" coveredstatements="46" conditionals="12" coveredconditionals="12" methods="5" coveredmethods="5"/>
       <line num="1" count="1" type="stmt"/>
       <line num="2" count="1" type="cond" truecount="1" falsecount="0"/>
       <line num="3" count="1" type="stmt"/>
@@ -22,16 +17,39 @@
       <line num="11" count="1" type="stmt"/>
       <line num="12" count="2" type="cond" truecount="1" falsecount="0"/>
       <line num="13" count="2" type="cond" truecount="1" falsecount="0"/>
-      <line num="14" count="2" type="stmt"/>
-      <line num="15" count="2" type="stmt"/>
-      <line num="16" count="2" type="stmt"/>
-      <line num="17" count="1" type="stmt"/>
+      <line num="14" count="2" type="cond" truecount="1" falsecount="0"/>
+      <line num="15" count="1" type="stmt"/>
+      <line num="16" count="1" type="stmt"/>
+      <line num="17" count="2" type="stmt"/>
       <line num="18" count="1" type="stmt"/>
       <line num="19" count="1" type="stmt"/>
-      <line num="20" count="1" type="stmt"/>
-      <line num="21" count="1" type="stmt"/>
-      <line num="22" count="1" type="stmt"/>
+      <line num="20" count="2" type="cond" truecount="1" falsecount="0"/>
+      <line num="21" count="2" type="cond" truecount="1" falsecount="0"/>
+      <line num="22" count="2" type="cond" truecount="1" falsecount="0"/>
+      <line num="23" count="1" type="stmt"/>
+      <line num="24" count="1" type="stmt"/>
+      <line num="25" count="2" type="stmt"/>
+      <line num="26" count="1" type="stmt"/>
+      <line num="27" count="1" type="stmt"/>
+      <line num="28" count="3" type="cond" truecount="1" falsecount="0"/>
+      <line num="29" count="3" type="cond" truecount="1" falsecount="0"/>
+      <line num="30" count="3" type="cond" truecount="1" falsecount="0"/>
+      <line num="31" count="2" type="stmt"/>
+      <line num="32" count="2" type="stmt"/>
+      <line num="33" count="3" type="stmt"/>
+      <line num="34" count="1" type="stmt"/>
+      <line num="35" count="1" type="stmt"/>
+      <line num="36" count="1" type="cond" truecount="1" falsecount="0"/>
+      <line num="37" count="1" type="cond" truecount="1" falsecount="0"/>
+      <line num="38" count="1" type="stmt"/>
+      <line num="39" count="1" type="stmt"/>
+      <line num="40" count="1" type="stmt"/>
+      <line num="41" count="1" type="stmt"/>
+      <line num="42" count="1" type="stmt"/>
+      <line num="43" count="1" type="stmt"/>
+      <line num="44" count="1" type="stmt"/>
+      <line num="45" count="1" type="stmt"/>
+      <line num="46" count="1" type="stmt"/>
     </file>
->>>>>>> 6693f631f42b2c526b88d54d0a1211cd57a9bb95
   </project>
 </coverage>
