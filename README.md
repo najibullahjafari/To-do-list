@@ -172,7 +172,6 @@ Your working browser.
 - LinkedIn: [Najibullah_jafari](https://www.linkedin.com/in/najibulla-jafari-609852263/)
 
 
-👤 **Syeda Masuma Fatima**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
