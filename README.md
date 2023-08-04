@@ -30,7 +30,9 @@ To do list
 
 # 📖 About the project <a name="about-project"></a>
 
-It is a library!
+To-do list is a simple and effective tool used to organize tasks and manage time efficiently. It serves as a personal task manager, helping users keep track of their daily, weekly, or long-term tasks and goals. With a to-do list, users can prioritize tasks, set deadlines, and mark completed items, enabling them to stay focused, productive, and organized in both personal and professional aspects of life.
+<img width="796" alt="Screenshot 2023-08-05 042115" src="https://github.com/najibullahjafari/To-do-list/assets/121656832/bf7f6d4c-e8bf-41d1-89f2-a6984a62da2d">
+
 
 ## 🛠 Built With <a name="built-with"></a>
 
