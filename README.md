@@ -70,7 +70,7 @@ It is a library!
 In this project best coding practices is used.
 
 ## 🚀 Live Demo <a name="live-demo"></a>
-<!-- https://64933b42fe735108c7471065--gleaming-rabanadas-7c9e4b.netlify.app/ -->
+
 Check out the live demo of this project [here](https://64933b42fe735108c7471065--gleaming-rabanadas-7c9e4b.netlify.app/).
 
 ## 💻 Getting Started <a name="getting-started"></a>
@@ -198,7 +198,7 @@ Do you like this project? So don't wait to give one star!
 
 ## 🙏 Acknowledgments <a name="acknowledgements"></a>
 
-I thanks from Microverse!
+I would like to express my deepest gratitude to Microverse for this project. The invaluable learning experience and support provided have been instrumental in my growth as a developer. My mentors and instructors deserve special thanks for their guidance and patience. The collaborative spirit of my fellow students has been a constant source of inspiration. I also extend my appreciation to the open-source community for their contributions. Lastly, my family and friends' unwavering support has been a driving force throughout this journey. Thank you, Microverse, for this incredible opportunity!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
